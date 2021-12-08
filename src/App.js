@@ -20,27 +20,32 @@ export default function App() {
       quantity !== "" &&
       currentPrice !== ""
     ) {
-      if (buyPrice < curPrice) {
-        const profit = (curPrice - buyPrice) * qty;
-        const perc = ((curPrice - buyPrice) / buyPrice) * 100;
-        setIsProfitable(true);
-        setResult(
-          `▲ Stock is up by ${perc.toFixed(2)}%. Your profit is ${profit}.`
-        );
-      } else if (buyPrice > curPrice) {
-        const loss = (buyPrice - curPrice) * qty;
-        const perc = ((buyPrice - curPrice) / buyPrice) * 100;
+      if (buyPrice <= 0 || qty <= 0 || curPrice < 0) {
         setIsProfitable(false);
-        setResult(
-          `▼ Stock is down by ${perc.toFixed(2)}%. Your loss is ${loss}.`
-        );
+        setResult("values cannot be zero or negative");
       } else {
-        setIsProfitable(true);
-        setResult("No Profit. No Loss");
+        if (buyPrice < curPrice) {
+          const profit = (curPrice - buyPrice) * qty;
+          const perc = ((curPrice - buyPrice) / buyPrice) * 100;
+          setIsProfitable(true);
+          setResult(
+            `▲ Stock is up by ${perc.toFixed(2)}%. Your profit is ${profit}.`
+          );
+        } else if (buyPrice > curPrice) {
+          const loss = (buyPrice - curPrice) * qty;
+          const perc = ((buyPrice - curPrice) / buyPrice) * 100;
+          setIsProfitable(false);
+          setResult(
+            `▼ Stock is down by ${perc.toFixed(2)}%. Your loss is ${loss}.`
+          );
+        } else {
+          setIsProfitable(true);
+          setResult("No Profit. No Loss");
+        }
       }
     } else {
       setIsProfitable(false);
-      setResult("Please enter all details");
+      setResult("invalid or incomplete details");
     }
   };
 
